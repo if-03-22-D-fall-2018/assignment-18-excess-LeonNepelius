@@ -34,7 +34,6 @@ void read_textfile()
     char line[ws.ws_row*ws.ws_col];
     char pages[100][ws.ws_row*ws.ws_col];
     char c;
-    int row = 0;
     int col = 0;
     int page = 0;
     FILE* stream = fopen(filename,"r");
@@ -50,37 +49,35 @@ void read_textfile()
         }
         line[col] = c;
         col++;
-        if ((col % ws.ws_col) == 0)
-        {
-            row++;
-        }
-        if (row == ws.ws_row-5)
+        if (col == ((ws.ws_row)*(ws.ws_col))-1)
         {
             memcpy(pages[page], line, sizeof(line));
-            printf("%s",pages[page]);
             page++;
-            char input[256];
-            printf("\nEnter n to go to the next page or b for the previous page: ");
-            scanf("%s",input);
-            while (strcmp(input,"b") == 0)
-            {
-                system("clear");
-                page--;
-                if (page < 0)
-                {
-                    page++;
-                }
-                else
-                {
-                    printf("%s",pages[page]);
-                    printf("\nEnter n to go to the next page or b for the previous page: ");
-                    scanf("%s",input);
-                }
-            }
-            system("clear");
-            row = 0;
             col = 0;
         }
     }while ( 1 );
+    int sum_pages = page;
+    page = 0;
+    printf("%s",pages[page]);
+    char input[256];
+    printf("\nEnter n to go to the next page or b for the previous page: ");
+    scanf("%s",input);
+    while (page < sum_pages) {
+        system("clear");
+        if (strcmp(input,"n")==0)
+        {
+            page++;
+            printf("%s",pages[page]);
+            printf("\nEnter n to go to the next page or b for the previous page: ");
+            scanf("%s",input);
+        }
+        else if (strcmp(input,"b")==0)
+        {
+            page--;
+            printf("%s",pages[page]);
+            printf("\nEnter n to go to the next page or b for the previous page: ");
+            scanf("%s",input);
+        }
+    }
     fclose(stream);
 }
