@@ -32,10 +32,12 @@ void read_textfile()
     //printf("row=%d, col=%d, xpixel=%d, ypixel=%d\n",
     //      ws.ws_row,ws.ws_col,ws.ws_xpixel,ws.ws_ypixel);
     char line[ws.ws_row*ws.ws_col];
-    char pages[100][ws.ws_row*ws.ws_col];
+    char pages[10000][ws.ws_row*ws.ws_col];
     char c;
     int col = 0;
     int page = 0;
+    char input[256];
+    int sum_pages;
     FILE* stream = fopen(filename,"r");
     if (stream == 0)
     {
@@ -56,28 +58,37 @@ void read_textfile()
             col = 0;
         }
     }while ( 1 );
-    int sum_pages = page;
+    fclose(stream);
+    sum_pages = page;
     page = 0;
     printf("%s",pages[page]);
-    char input[256];
-    printf("\nEnter n to go to the next page or b for the previous page: ");
+    printf("\nEnter n to go to the next page or b for the previous page or q for quit: ");
     scanf("%s",input);
     while (page < sum_pages) {
         system("clear");
-        if (strcmp(input,"n")==0)
+        if (strcmp(input,"n")==0) // next page
         {
             page++;
             printf("%s",pages[page]);
-            printf("\nEnter n to go to the next page or b for the previous page: ");
+            printf("\nEnter n to go to the next page or b for the previous page or q for quit: ");
             scanf("%s",input);
         }
-        else if (strcmp(input,"b")==0)
+        else if (strcmp(input,"b")==0) // previous page
         {
             page--;
             printf("%s",pages[page]);
-            printf("\nEnter n to go to the next page or b for the previous page: ");
+            printf("\nEnter n to go to the next page or b for the previous page or q for quit: ");
+            scanf("%s",input);
+        }
+        else if (strcmp(input,"q")==0) // quit
+        {
+            return;
+        }
+        else // wrong command
+        {
+            printf("%s",pages[page]);
+            printf("\nWrong command try again (n for next page, b for previous page or q for quit): ");
             scanf("%s",input);
         }
     }
-    fclose(stream);
 }
