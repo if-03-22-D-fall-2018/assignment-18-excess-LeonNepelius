@@ -49,7 +49,7 @@ void read_textfile()
         }
         line[col] = c;
         col++;
-        if (col == ((ws.ws_row)*(ws.ws_col))-1)
+        if (col == ((ws.ws_row-3)*(ws.ws_col))-1)
         {
             memcpy(pages[page], line, sizeof(line));
             page++;
